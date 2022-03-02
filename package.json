@@ -7,7 +7,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@splidejs/splide": "^3.6.12",
     "@splidejs/vue-splide": "^0.5.18",
     "axios": "^0.26.0",
     "core-js": "^3.6.5",

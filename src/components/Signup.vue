@@ -50,6 +50,13 @@
         </div>
       </Form>
     </div>
+    <div
+      v-if="message"
+      class="alert"
+      :class="successful ? 'alert-success' : 'alert-danger'"
+    >
+      <h4>{{ message }}</h4>
+    </div>
   </section>
 </template>
 <script>
@@ -136,6 +143,7 @@ export default {
   flex-direction: column;
   min-height: 100vh;
   min-width: 100%;
+  row-gap: 1rem;
 }
 .form-container {
   position: relative;
@@ -233,5 +241,13 @@ button {
 button:hover {
   background: transparent;
   color: #fff;
+}
+.alert {
+  width: 90%;
+  color: #000;
+}
+.alert h4 {
+  font-size: 20px;
+  font-weight: 600;
 }
 </style>

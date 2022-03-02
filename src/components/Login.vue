@@ -39,20 +39,17 @@
         </div>
       </div>
     </div>
-    <grid-loader :loading="loading" :color="color" :size="size"></grid-loader>
   </section>
 </template>
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import GridLoader from "vue-spinner/src/GridLoader.vue";
 export default {
   name: "Login",
   components: {
     Form,
     Field,
     ErrorMessage,
-    GridLoader,
   },
   data() {
     const schema = yup.object().shape({

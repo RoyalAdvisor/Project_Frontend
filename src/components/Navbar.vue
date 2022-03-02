@@ -1,7 +1,11 @@
 <template>
   <nav class="navbar">
     <div class="nav-item">
-      <a href="/" class="navbar-brand">Random Store</a>
+      <a href="/" class="nav">
+        <router-link :to="{ path: '/' }" class="navbar-brand"
+          >Random Store</router-link
+        >
+      </a>
     </div>
     <div class="nav-item" v-if="currentUser">
       <a href="">
@@ -23,11 +27,6 @@
       <a href="">
         <router-link :to="{ path: '/Login' }" class="nav-link"
           >Login</router-link
-        >
-      </a>
-      <a href="">
-        <router-link :to="{ path: '/Register' }" class="nav-link"
-          >Register</router-link
         >
       </a>
     </div>
