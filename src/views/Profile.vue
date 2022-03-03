@@ -76,6 +76,7 @@ export default {
   font-size: 2.5rem;
   font-weight: 800;
   color: #000;
+  margin: 2rem 0;
 }
 .profile-container {
   padding: 0;

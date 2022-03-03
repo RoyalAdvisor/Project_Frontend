@@ -4,12 +4,14 @@
       <header class="product-header">
         <h2>Products</h2>
       </header>
+      <addProductModal />
       <div class="card-wrapper">
         <div class="card" v-for="product in products" :key="product._id">
           <div class="card-image">
             <img :src="product.image" :alt="product._id" />
           </div>
           <div class="card-content">
+            <editProductModal />
             <div class="content-item">
               <h5>Title</h5>
               <span>{{ product.title }}</span>
@@ -19,15 +21,8 @@
               <span>{{ product.price }}</span>
             </div>
             <div class="crud-buttons">
-              <button
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"
-              >
-                Edit
-              </button>
-              <button type="button">Delete</button>
-              <button type="button">Add to cart</button>
+              <!-- <button type="button" class="delete">Delete</button>
+              <button type="button" class="addToCart">Add to cart</button> -->
             </div>
           </div>
         </div>
@@ -37,18 +32,17 @@
 </template>
 <script>
 import UserService from "../services/userService";
-import ProductService from "../services/productService";
-import Modal from "./Modal.vue";
+import addProductModal from "./addProductModal.vue";
+import editProductModal from "./editProductModal.vue";
 export default {
   name: "Products",
   components: {
-    Modal,
+    addProductModal,
+    editProductModal,
   },
   data() {
     return {
       products: [],
-      title: "",
-      isModalVisible: false,
     };
   },
   mounted() {
@@ -67,14 +61,27 @@ export default {
     );
   },
   methods: {
-    createProduct() {},
-    deleteProduct() {},
-    updateProduct() {},
-    showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
+    deleteProduct() {
+      if (!localStorage.getItem("user")) {
+        alert("User not found");
+        this.$router.push("/Login");
+        return;
+      }
+      fetch(`${url}`, {
+        method: "DELETE",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).accessToken
+          }`,
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          alert("Successfully deleted product");
+          this.$router.push("/Products");
+        });
     },
   },
 };
@@ -91,6 +98,7 @@ export default {
   font-size: 2.5rem;
   font-weight: 800;
   color: #000;
+  margin-top: 2rem;
 }
 .product-container {
   padding: 0;
@@ -113,6 +121,7 @@ export default {
   gap: 2rem;
 }
 .card {
+  z-index: -1;
   width: 25%;
   display: flex;
   justify-content: center;
@@ -145,7 +154,7 @@ export default {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  line-height: 10px;
+  line-height: 15px;
 }
 .content-item {
   width: 100%;
@@ -153,5 +162,11 @@ export default {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+}
+.crud-buttons {
+  margin: 1rem 0;
+}
+.delete {
+  z-index: 2;
 }
 </style>
