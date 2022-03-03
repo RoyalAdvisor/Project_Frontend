@@ -4,7 +4,7 @@
     aria-controls="staticBackdropLabel"
     @click="staticBackdrop = true"
   >
-    Add Product
+    Edit product
   </MDBBtn>
   <!-- Modal -->
   <MDBModal
@@ -16,7 +16,7 @@
     class="modal"
   >
     <MDBModalHeader class="modal-header">
-      <MDBModalTitle id="staticBackdropLabel">Add Product</MDBModalTitle>
+      <MDBModalTitle id="staticBackdropLabel">Edit product</MDBModalTitle>
     </MDBModalHeader>
     <MDBModalBody class="modal-body">
       <div class="modal-item">
@@ -41,8 +41,8 @@
       </div>
     </MDBModalBody>
     <MDBModalFooter class="modal-footer">
-      <MDBBtn color="secondary" @click="staticBackdrop = false"> Close </MDBBtn>
-      <MDBBtn color="primary"> Understood </MDBBtn>
+      <MDBBtn color="danger" @click="staticBackdrop = false"> Close </MDBBtn>
+      <MDBBtn color="success" @click="editProduct">Edit</MDBBtn>
     </MDBModalFooter>
   </MDBModal>
 </template>
@@ -55,6 +55,7 @@ import {
   MDBModalFooter,
   MDBBtn,
 } from "mdb-vue-ui-kit";
+const url = "https://complete-rest-api.herokuapp.com/api/products/";
 import { ref } from "vue";
 export default {
   components: {
@@ -73,6 +74,36 @@ export default {
       image: "",
       price: "",
     };
+  },
+  methods: {
+    editProduct() {
+      if (!localStorage.getItem("user")) {
+        alert("User not found");
+        this.$router.push("/Login");
+        return;
+      }
+      fetch(`${url}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title: this.title,
+          catergory: this.catergory,
+          description: this.description,
+          image: this.image,
+          price: this.price,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).accessToken
+          }`,
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          alert("Successfully edited product");
+          this.$router.push("/Products");
+        });
+    },
   },
   setup() {
     const staticBackdrop = ref(false);

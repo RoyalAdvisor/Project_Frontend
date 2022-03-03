@@ -11,6 +11,7 @@
             <img :src="product.image" :alt="product._id" />
           </div>
           <div class="card-content">
+            <editProductModal />
             <div class="content-item">
               <h5>Title</h5>
               <span>{{ product.title }}</span>
@@ -28,9 +29,8 @@
               <span>{{ product.price }}</span>
             </div>
             <div class="crud-buttons">
-              <button type="button" class="edit">Edit</button>
-              <button type="button" class="delete">Delete</button>
-              <button type="button" class="addToCart">Add to cart</button>
+              <!-- <button type="button" class="delete">Delete</button>
+              <button type="button" class="addToCart">Add to cart</button> -->
             </div>
           </div>
         </div>
@@ -41,10 +41,12 @@
 <script>
 import UserService from "../services/userService";
 import addProductModal from "./addProductModal.vue";
+import editProductModal from "./editProductModal.vue";
 export default {
   name: "Products",
   components: {
     addProductModal,
+    editProductModal,
   },
   data() {
     return {
