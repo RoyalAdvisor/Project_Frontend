@@ -14,17 +14,28 @@
               <h5>Title</h5>
               <span>{{ product.title }}</span>
             </div>
-            <div class="content-item">
+            <!-- <div class="content-item">
               <h5>Catergory</h5>
               <span>{{ product.catergory }}</span>
             </div>
             <div class="content-item">
               <h5>Description</h5>
               <span>{{ product.description }}</span>
-            </div>
+            </div> -->
             <div class="content-item">
               <h5>Price</h5>
               <span>{{ product.price }}</span>
+            </div>
+            <div class="crud-buttons">
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Edit
+              </button>
+              <button type="button">Delete</button>
+              <button type="button">Add to cart</button>
             </div>
           </div>
         </div>
@@ -34,12 +45,18 @@
 </template>
 <script>
 import UserService from "../services/userService";
-
+import ProductService from "../services/productService";
+import Modal from "./Modal.vue";
 export default {
   name: "Products",
+  components: {
+    Modal,
+  },
   data() {
     return {
       products: [],
+      title: "",
+      isModalVisible: false,
     };
   },
   mounted() {
@@ -56,6 +73,17 @@ export default {
           error.toString();
       }
     );
+  },
+  methods: {
+    createProduct() {},
+    deleteProduct() {},
+    updateProduct() {},
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
   },
 };
 </script>
@@ -93,11 +121,14 @@ export default {
   gap: 2rem;
 }
 .card {
-  width: 30%;
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 15px;
   border-radius: 15px;
   row-gap: 1rem;
-  height: 850px;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 50px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(16.5px);
@@ -122,7 +153,7 @@ export default {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  line-height: 20px;
+  line-height: 10px;
 }
 .content-item {
   width: 100%;
