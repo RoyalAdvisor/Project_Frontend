@@ -63,21 +63,21 @@ export default {
       title: "",
     };
   },
-  mounted() {
-    UserService.getPublicContent().then(
-      (response) => {
-        this.products = response.data;
-      },
-      (error) => {
-        this.products =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
-  },
+  // mounted() {
+  //   UserService.getPublicContent().then(
+  //     (response) => {
+  //       this.products = response.data;
+  //     },
+  //     (error) => {
+  //       this.products =
+  //         (error.response &&
+  //           error.response.data &&
+  //           error.response.data.message) ||
+  //         error.message ||
+  //         error.toString();
+  //     }
+  //   );
+  // },
   total() {
     return this.products.reduce((total, p) => {
       return total + p.price * p.quantity;
