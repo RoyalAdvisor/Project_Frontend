@@ -28,7 +28,9 @@
               <span>{{ product.price }}</span>
             </div>
             <div class="crud-buttons">
-              <MDBBtn color="danger">Delete</MDBBtn>
+              <button type="button" class="edit">Edit</button>
+              <button type="button" class="delete">Delete</button>
+              <button type="button" class="addToCart">Add to cart</button>
             </div>
           </div>
         </div>
@@ -39,12 +41,10 @@
 <script>
 import UserService from "../services/userService";
 import addProductModal from "./addProductModal.vue";
-import { MDBBtn } from "mdb-vue-ui-kit";
 export default {
   name: "Products",
   components: {
     addProductModal,
-    MDBBtn,
   },
   data() {
     return {
@@ -65,6 +65,30 @@ export default {
           error.toString();
       }
     );
+  },
+  methods: {
+    deleteProduct() {
+      if (!localStorage.getItem("user")) {
+        alert("User not found");
+        this.$router.push("/Login");
+        return;
+      }
+      fetch(`${url}`, {
+        method: "DELETE",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).accessToken
+          }`,
+        },
+      })
+        .then((res) => res.json())
+        .then(() => {
+          alert("Successfully deleted product");
+          this.$router.push("/Products");
+        });
+    },
   },
 };
 </script>
@@ -147,5 +171,8 @@ export default {
 }
 .crud-buttons {
   margin: 1rem 0;
+}
+.delete {
+  z-index: 2;
 }
 </style>

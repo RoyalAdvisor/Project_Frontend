@@ -98,9 +98,9 @@ export default {
         }),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("user.accessToken")
-          )}`,
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).accessToken
+          }`,
         },
       })
         .then((res) => res.json())
