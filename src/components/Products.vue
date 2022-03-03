@@ -4,6 +4,7 @@
       <header class="product-header">
         <h2>Products</h2>
       </header>
+      <addProductModal />
       <div class="card-wrapper">
         <div class="card" v-for="product in products" :key="product._id">
           <div class="card-image">
@@ -27,15 +28,7 @@
               <span>{{ product.price }}</span>
             </div>
             <div class="crud-buttons">
-              <button
-                type="button"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"
-              >
-                Edit
-              </button>
-              <button type="button">Delete</button>
-              <button type="button">Add to cart</button>
+              <MDBBtn color="danger">Delete</MDBBtn>
             </div>
           </div>
         </div>
@@ -45,18 +38,17 @@
 </template>
 <script>
 import UserService from "../services/userService";
-import ProductService from "../services/productService";
-import Modal from "./Modal.vue";
+import addProductModal from "./addProductModal.vue";
+import { MDBBtn } from "mdb-vue-ui-kit";
 export default {
   name: "Products",
   components: {
-    Modal,
+    addProductModal,
+    MDBBtn,
   },
   data() {
     return {
       products: [],
-      title: "",
-      isModalVisible: false,
     };
   },
   mounted() {
@@ -74,17 +66,6 @@ export default {
       }
     );
   },
-  methods: {
-    createProduct() {},
-    deleteProduct() {},
-    updateProduct() {},
-    showModal() {
-      this.isModalVisible = true;
-    },
-    closeModal() {
-      this.isModalVisible = false;
-    },
-  },
 };
 </script>
 <style scoped>
@@ -99,6 +80,7 @@ export default {
   font-size: 2.5rem;
   font-weight: 800;
   color: #000;
+  margin-top: 2rem;
 }
 .product-container {
   padding: 0;
@@ -121,6 +103,7 @@ export default {
   gap: 2rem;
 }
 .card {
+  z-index: -1;
   width: 25%;
   display: flex;
   justify-content: center;
@@ -153,7 +136,7 @@ export default {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  line-height: 10px;
+  line-height: 15px;
 }
 .content-item {
   width: 100%;
@@ -161,5 +144,8 @@ export default {
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+}
+.crud-buttons {
+  margin: 1rem 0;
 }
 </style>
