@@ -11,26 +11,24 @@
             <img :src="product.image" :alt="product._id" />
           </div>
           <div class="card-content">
-            <editProductModal />
             <div class="content-item">
               <h5>Title</h5>
               <span>{{ product.title }}</span>
             </div>
-            <!-- <div class="content-item">
-              <h5>Catergory</h5>
-              <span>{{ product.catergory }}</span>
-            </div>
-            <div class="content-item">
-              <h5>Description</h5>
-              <span>{{ product.description }}</span>
-            </div> -->
             <div class="content-item">
               <h5>Price</h5>
               <span>{{ product.price }}</span>
             </div>
             <div class="crud-buttons">
-              <!-- <button type="button" class="delete">Delete</button>
-              <button type="button" class="addToCart">Add to cart</button> -->
+              <button
+                type="button"
+                class="delete"
+                @click="deleteProduct(product._id)"
+              >
+                Delete
+              </button>
+              <button type="button" class="edit">Edit</button>
+              <button type="button" class="addToCart">Add to cart</button>
             </div>
           </div>
         </div>
@@ -39,14 +37,14 @@
   </section>
 </template>
 <script>
+import axios from "axios";
 import UserService from "../services/userService";
 import addProductModal from "./addProductModal.vue";
-import editProductModal from "./editProductModal.vue";
+const url = "https://complete-rest-api.herokuapp.com/api/products/";
 export default {
   name: "Products",
   components: {
     addProductModal,
-    editProductModal,
   },
   data() {
     return {
@@ -69,15 +67,43 @@ export default {
     );
   },
   methods: {
-    deleteProduct() {
+    deleteProduct(id) {
+      const config = {
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).accessToken
+          }`,
+        },
+      };
+      let API = `${url}${id}`;
+      let indexOfArrayItem = this.products.findIndex((i) => i._id === id);
+      if (window.confirm("Do you really want to delete?")) {
+        axios
+          .delete(API, config)
+          .then(() => {
+            this.products.splice(indexOfArrayItem, 1);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+    editProduct() {
       if (!localStorage.getItem("user")) {
         alert("User not found");
         this.$router.push("/Login");
         return;
       }
       fetch(`${url}`, {
-        method: "DELETE",
-        body: JSON.stringify({}),
+        method: "PUT",
+        body: JSON.stringify({
+          title: this.title,
+          catergory: this.catergory,
+          description: this.description,
+          image: this.image,
+          price: this.price,
+        }),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${
@@ -87,7 +113,7 @@ export default {
       })
         .then((res) => res.json())
         .then(() => {
-          alert("Successfully deleted product");
+          alert("Successfully created a new product");
           this.$router.push("/Products");
         });
     },
@@ -129,7 +155,6 @@ export default {
   gap: 2rem;
 }
 .card {
-  z-index: -1;
   width: 25%;
   display: flex;
   justify-content: center;
@@ -173,6 +198,12 @@ export default {
 }
 .crud-buttons {
   margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  width: 100%;
 }
 .delete {
   z-index: 2;
