@@ -14,14 +14,6 @@
               <h5>Title</h5>
               <span>{{ product.title }}</span>
             </div>
-            <!-- <div class="content-item">
-              <h5>Catergory</h5>
-              <span>{{ product.catergory }}</span>
-            </div>
-            <div class="content-item">
-              <h5>Description</h5>
-              <span>{{ product.description }}</span>
-            </div> -->
             <div class="content-item">
               <h5>Price</h5>
               <span>{{ product.price }}</span>
