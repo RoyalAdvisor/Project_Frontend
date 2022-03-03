@@ -1,57 +1,45 @@
 <template>
-  <!-- <section class="cart">
-    <div class="cart-container">
-      <header class="cart-header">
-        <h2>Cart</h2>
-      </header>
-      <div class="Product">
-        <h3 class="product-name" alt="" src>product</h3>
-        <p class="product-description">description</p>
-        <button class="cart-button">-</button>
-        <div class="cart-quantity">0</div>
-        <button class="cart-button">+</button>
-      </div>
+  <section class="Cart-container">
+    <div class="cart">
+      <h1 class="title">Your Cart</h1>
+      <p v-show="!products.length">
+        <i>Your cart is empty!</i>
+        <router-link to="/Products">Go shopping</router-link>
+      </p>
+      <table class="table is-striped" v-show="products.length">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Quantity</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="p in products">
+            <td>{{ p.name }}</td>
+            <td>${{ p.price }}</td>
+            <td>{{ p.quantity }}</td>
+          </tr>
+          <tr>
+            <td><b>Total:</b></td>
+            <td></td>
+            <td>
+              <b>${{ total }}</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        <button
+          v-show="products.length"
+          class="button is-primary"
+          @click="checkout"
+        >
+          Checkout
+        </button>
+      </p>
     </div>
-  </section> -->
-  <div class="cart">
-    <h1 class="title">Your Cart</h1>
-    <p v-show="!products.length">
-      <i>Your cart is empty!</i>
-      <router-link to="/Products">Go shopping</router-link>
-    </p>
-    <table class="table is-striped" v-show="products.length">
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Price</td>
-          <td>Quantity</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="p in products">
-          <td>{{ p.name }}</td>
-          <td>${{ p.price }}</td>
-          <td>{{ p.quantity }}</td>
-        </tr>
-        <tr>
-          <td><b>Total:</b></td>
-          <td></td>
-          <td>
-            <b>${{ total }}</b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      <button
-        v-show="products.length"
-        class="button is-primary"
-        @click="checkout"
-      >
-        Checkout
-      </button>
-    </p>
-  </div>
+  </section>
 </template>
 <script>
 export default {
@@ -63,21 +51,21 @@ export default {
       title: "",
     };
   },
-  mounted() {
-    UserService.getPublicContent().then(
-      (response) => {
-        this.products = response.data;
-      },
-      (error) => {
-        this.products =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      }
-    );
-  },
+  // mounted() {
+  //   UserService.getPublicContent().then(
+  //     (response) => {
+  //       this.products = response.data;
+  //     },
+  //     (error) => {
+  //       this.products =
+  //         (error.response &&
+  //           error.response.data &&
+  //           error.response.data.message) ||
+  //         error.message ||
+  //         error.toString();
+  //     }
+  //   );
+  // },
   total() {
     return this.products.reduce((total, p) => {
       return total + p.price * p.quantity;
@@ -92,24 +80,19 @@ export default {
 </script>
 
 <style scoped>
-.cart {
+.Cart {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  background-color: rgb(134, 126, 126);
-  height: 100vh;
-}
-.cart-header h2 {
-  font-size: 2.5rem;
   font-weight: 800;
   color: #000;
 }
-.cart-container {
+.Cart-container {
   padding: 0;
   position: relative;
-  width: 90%;
+  width: 98%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,5 +101,6 @@ export default {
   border-radius: 15px;
   background: rgb(184, 184, 195);
   height: 90vh;
+  margin: 0.5rem 0.5rem 0.5rem;
 }
 </style>
