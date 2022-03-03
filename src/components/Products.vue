@@ -20,15 +20,11 @@
               <span>{{ product.price }}</span>
             </div>
             <div class="crud-buttons">
-              <button
-                type="button"
-                class="delete"
-                @click="deleteProduct(product._id)"
+              <MDBBtn color="primary">Edit</MDBBtn>
+              <MDBBtn color="danger" @click="deleteProduct(product._id)"
+                >Delete</MDBBtn
               >
-                Delete
-              </button>
-              <button type="button" class="edit">Edit</button>
-              <button type="button" class="addToCart">Add to cart</button>
+              <MDBBtn color="success">Add To Cart</MDBBtn>
             </div>
           </div>
         </div>
@@ -37,6 +33,7 @@
   </section>
 </template>
 <script>
+import { MDBBtn } from "mdb-vue-ui-kit";
 import axios from "axios";
 import UserService from "../services/userService";
 import addProductModal from "./addProductModal.vue";
@@ -45,6 +42,7 @@ export default {
   name: "Products",
   components: {
     addProductModal,
+    MDBBtn,
   },
   data() {
     return {
